@@ -4,4 +4,4 @@
 
 #include "OfferAlreadyExistsException.h"
 OfferAlreadyExistsException::OfferAlreadyExistsException(int wrongNumber):
-        std::invalid_argument("Offert already exists in database, number: " + std::to_string(wrongNumber)){}
+        std::invalid_argument("Offer already exists in database, number: " + std::to_string(wrongNumber)){}
