@@ -8,6 +8,7 @@
 #include "privateClient.h"
 #include "businessClient.h"
 #include "ClientInDatabaseException.h"
+#include "NoSuchClientInDatabaseException.h"
 #include <vector>
 #include <iostream>
 #include <string>
@@ -17,8 +18,11 @@ class AllClients{
 private:
     list<unique_ptr<Client>> allClients;
 public:
+    int getNumberOfClients();
+
+    bool checkClientNumber(int Number);
     void addPrivateClient(int Number, string Name);
     void addBusinessClient(int Number, string Name);
-    void removeClient(unique_ptr<Client> removedClient);
+    void removeClient(int Number);
 };
 #endif //ZADANIE4_ALLCLIENTS_H

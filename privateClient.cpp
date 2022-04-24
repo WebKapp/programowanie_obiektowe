@@ -11,7 +11,7 @@ shared_ptr<Worker> PrivateClient::chooseWorker(vector<shared_ptr<Worker>> worker
     while(workerNotFound){
         if(i >= workers.size()){
             workerNotFound = true;
-            cerr << "No available worker";
+            throw NoAvailableWorkerException(name);
         }
         else if(workers[i] -> getAccessible()){
             workerNotFound = false;

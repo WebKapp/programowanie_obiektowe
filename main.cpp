@@ -42,7 +42,16 @@ int main() {
     AllClients clients;
     clients.addBusinessClient(14, "Kamil");
     clients.addBusinessClient(13, "Kamil");
+    clients.addBusinessClient(12, "Kamil");
+
+    cout << clients.getNumberOfClients();
+
     clients.addBusinessClient(15, "Kamil");
+
+    cout << clients.getNumberOfClients();
+
+    clients.removeClient(12);
+    cout << clients.getNumberOfClients();
 
 //    Client* client1 = new Client();
 //    int i = 10;

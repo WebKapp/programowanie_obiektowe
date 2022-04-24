@@ -25,4 +25,10 @@ Client::Client(int Number, string Name) {
     name = Name;
 }
 
+
 Client::~Client() {}
+
+
+bool Client::compareNumber(int Number) {
+    return number == Number;
+}

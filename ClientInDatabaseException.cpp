@@ -5,4 +5,4 @@
 #include "ClientInDatabaseException.h"
 
 ClientInDatabaseException::ClientInDatabaseException(int wrongNumber):
-        std::invalid_argument("Negative value of the base price: " + std::to_string(wrongNumber)){}
+        std::invalid_argument("Client already exists in database, number: " + std::to_string(wrongNumber)){}
