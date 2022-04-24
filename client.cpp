@@ -32,3 +32,10 @@ Client::~Client() {}
 bool Client::compareNumber(int Number) {
     return number == Number;
 }
+
+ostream& operator<<(ostream& os, const Client& client)
+{
+    os <<client.number << "," << client.name;
+    return os;
+}
+

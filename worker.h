@@ -5,6 +5,7 @@
 #ifndef ZADANIE4_WORKER_H
 #define ZADANIE4_WORKER_H
 #include <string>
+#include <iostream>
 using namespace std;
 
 class Worker{
@@ -27,5 +28,8 @@ public:
 
     bool operator>(const Worker& secondWorker) const;
     bool operator<(const Worker& secondWorker) const;
+
+    friend ostream& operator<<(ostream& os, const Worker& worker);
 };
+ostream& operator<<(ostream& os, const Worker& worker);
 #endif //ZADANIE4_WORKER_H

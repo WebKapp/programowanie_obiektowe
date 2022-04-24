@@ -5,6 +5,7 @@
 #ifndef ZADANIE4_CLIENT_H
 #define ZADANIE4_CLIENT_H
 #include <string>
+#include <iostream>
 #include "NoAvailableWorkerException.h"
 #include "worker.h"
 #include "offer.h"
@@ -26,6 +27,7 @@ public:
     virtual shared_ptr<Worker> chooseWorker(vector<shared_ptr<Worker>> workers) = 0;
 //    virtual void chooseOffer(vector<unique_ptr<Offer>> offers) = 0;
 
-
+    friend ostream& operator<<(ostream& os, const Client& client);
 };
+ostream& operator<<(ostream& os, const Client& client);
 #endif //ZADANIE4_CLIENT_H

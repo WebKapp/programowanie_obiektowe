@@ -48,3 +48,9 @@ bool Worker::operator<(const Worker& secondWorker) const
 {
     return !(*this > secondWorker);
 }
+
+ostream& operator<<(ostream& os, const Worker& worker)
+{
+    os << worker.id << "," << worker.name << "," << worker.rating << "," << worker.ifAccessible;
+    return os;
+}
