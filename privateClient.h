@@ -4,14 +4,17 @@
 
 #ifndef ZADANIE4_PRIVATECLIENT_H
 #define ZADANIE4_PRIVATECLIENT_H
-#include "client.h"
-#include "worker.h"
 #include <vector>
 #include <iostream>
-class PrivateClient : public Client {
+#include "client.h"
+#include "worker.h"
+#include "allWorkers.h"
+#include "allClients.h"
+class PrivateClient : public Client{
 protected:
 public:
     PrivateClient(int Number, string Name);
-    shared_ptr<Worker> chooseWorker(vector<shared_ptr<Worker>> workers);
+    shared_ptr<Worker> chooseWorker(AllWorkers workers);
+    shared_ptr<Offer> chooseOffer(AllOffers offers);
 };
 #endif //ZADANIE4_PRIVATECLIENT_H

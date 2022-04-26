@@ -14,11 +14,13 @@
 #include <list>
 class AllWorkers{
 private:
-    list<unique_ptr<Worker>> workers;
+    vector<shared_ptr<Worker>> workers;
 public:
     int getNumberOfWorkers();
     bool checkWorkerNumber(int Id);
     void addWorker(int Id, string NewName, double Rating, bool IfAccessible=true);
     void removeWorker(int Id);
+
+    vector<shared_ptr<Worker>> getWorkers();
 };
 #endif //ZADANIE4_ALLWORKERS_H

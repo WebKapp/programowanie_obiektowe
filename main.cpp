@@ -4,60 +4,134 @@
 #include "businessClient.h"
 #include "privateClient.h"
 #include "allClients.h"
+#include "allOffers.h"
 #include "offer.h"
 #include "worker.h"
-#include <typeinfo>
+
 using namespace std;
 
-int main() {
-
-//    void AllClients::addClient(unique_ptr<Client> newClient) {
-//        allClients.push_back(move(newClient));
-//    }
-
-    vector<shared_ptr<Worker>> workers;
-//    workers.push_back(make_unique<Worker>("Kamila"));
-    auto worker1 = make_shared<Worker>(3, "Kamilas", 15, false);
-    auto worker2 = make_shared<Worker>(2, "Kamil", 11, true);
-    auto worker3 = make_shared<Worker>(1, "Marta", 12, false);
-    workers.push_back(move(worker1));
-    workers.push_back(move(worker2));
-    workers.push_back(move(worker3));
-//    for (const auto& worker: workers){
-//        cout << worker->getName() << endl;
-//    }
-
-//    bool a;
-//    a = workers[0] < workers[1];
-//    cout << a;
-
-    BusinessClient klient1( 99, "Kamil");
-    cout <<  klient1.chooseWorker(workers) -> getName();
-
-    cout << endl;
-    PrivateClient klient2(90, "Marcin");
-    cout <<  klient2.chooseWorker(workers) -> getName();
-
-
+int main()
+{
+    bool ifContinue = true, okAnswer = true;
+    string answer, description;
+    AllWorkers workers;
     AllClients clients;
-    clients.addBusinessClient(14, "Kamil");
-    clients.addBusinessClient(13, "Kamil");
-    clients.addBusinessClient(12, "Kamil");
+    AllOffers offers;
+    int choice, number, id, rating;
+    string name;
 
-    cout << clients.getNumberOfClients();
+    workers.addWorker(1, "Kamil", 10);
+    workers.addWorker(2, "Waclaw", 20);
+    workers.addWorker(3, "Konrad", 150);
+    workers.addWorker(4, "Konrad", 40);
+    workers.addWorker(5, "Konrad", 50);
+    workers.addWorker(6, "Konrad", 60);
+    workers.addWorker(7, "Konrad", 70);
+    workers.addWorker(8, "Konrad", 80);
+    workers.addWorker(9, "Konrad", 90);
+    workers.addWorker(10, "Konrad", 100);
+    workers.addWorker(11, "Konrad", 110);
+    workers.addWorker(12, "Konrad", 120);
+    workers.addWorker(13, "Konrad", 130);
+    workers.addWorker(14, "Konrad", 140);
 
-    clients.addBusinessClient(15, "Kamil");
+    while(ifContinue) {
+        okAnswer = true;
+        cout << "-----------------------MENU-----------------------" << endl;
+        cout << "1. Add private client to database" << endl;
+        cout << "2. Add business client to database" << endl;
+        cout << "3. Add worker" << endl;
+        cout << "4. Add offer" << endl;
+        cout << "5. Choose workers for all the clients" << endl;
+        cout << "6. Choose offers for all the clients" << endl;
 
-    cout << clients.getNumberOfClients();
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                try {
+                    cout << "Number: ";
+                    cin >> number;
+                    cout << "Name: ";
+                    cin >> name;
+                    clients.addPrivateClient(number, name);
+                }
+                catch(const ClientInDatabaseException& e)
+                {
+                    cerr << e.what() << endl;
+                }
+                break;
+            case 2:
+                try {
+                    cout << "Number: ";
+                    cin >> number;
+                    cout << "Name: ";
+                    cin >> name;
+                    clients.addBusinessClient(number, name);
+                }
+                catch(const ClientInDatabaseException& e)
+                {
+                    cerr << e.what() << endl;
+                }
+                break;
+            case 3:
+                try {
+                    cout << "Id: ";
+                    cin >> id;
+                    cout << "Name: ";
+                    cin >> name;
+                    cout << "Rating: ";
+                    cin >> rating;
+                    workers.addWorker(id, name, rating);
+                }
+                catch(const WorkerAlreadyExistsException& e){
+                    cerr << e.what() << endl;
+                }
+                break;
+            case 4:
+                try {
+                    cout << "Number: ";
+                    cin >> number;
+                    cout << "Name: ";
+                    cin >> name;
+                    cout << "Description: ";
+                    cin >> description;
+                    cout << "Rating: ";
+                    cin >> rating;
+                    offers.addOffer(number, name, description, rating);
+                }
+                catch(const OfferAlreadyExistsException& e) {
+                    cerr << e.what() << endl;
+                }
+                break;
+            case 5:
+                clients.chooseWorkers(workers);
+                break;
+//            case 6 :
+//                clients.chooseOffers(offers);
+//                break;
+            default:
+                cerr << "Wrong choice";
+        }
+        while(okAnswer) {
+            cout << "Do you want to continue? (y/n):";
+            cin >> answer;
+            for (auto &letter: answer) {
+                letter = tolower(letter);
+            }
+            if (answer == "y" or answer == "yes") {
+                ifContinue = true;
+                okAnswer = false;
+            }
+            else if (answer == "n" or answer == "no") {
+                ifContinue = false;
+                okAnswer = false;
+            }
+            else {
+                cout << "Wrong answer!" << endl;
+                okAnswer = true;
+            }
+        }
+    }
 
-    clients.removeClient(12);
-    cout << clients.getNumberOfClients();
-
-//    Client* client1 = new Client();
-//    int i = 10;
-//    int *ptr = &i;
-//    cout << ptr << endl;
-//    *ptr = 12;
-//    cout << i << endl;
     return 0;
 }

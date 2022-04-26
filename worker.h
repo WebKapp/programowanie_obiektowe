@@ -6,6 +6,7 @@
 #define ZADANIE4_WORKER_H
 #include <string>
 #include <iostream>
+#include <ostream>
 using namespace std;
 
 class Worker{

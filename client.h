@@ -1,15 +1,19 @@
 //
-// Created by Kacper Murygin on 21/04/2022.
+// Created by Kacper Murygin on 24/04/2022.
 //
 
 #ifndef ZADANIE4_CLIENT_H
 #define ZADANIE4_CLIENT_H
 #include <string>
+#include <ostream>
 #include <iostream>
 #include "NoAvailableWorkerException.h"
 #include "worker.h"
 #include "offer.h"
+#include "allOffers.h"
+#include "allWorkers.h"
 using namespace std;
+
 class Client {
 protected:
     int number;
@@ -24,8 +28,8 @@ public:
     void setName(string newName);
 
     bool compareNumber(int Number);
-    virtual shared_ptr<Worker> chooseWorker(vector<shared_ptr<Worker>> workers) = 0;
-//    virtual void chooseOffer(vector<unique_ptr<Offer>> offers) = 0;
+    virtual shared_ptr<Worker> chooseWorker(AllWorkers workers) = 0;
+    virtual shared_ptr<Offer> chooseOffer(AllOffers workers) = 0;
 
     friend ostream& operator<<(ostream& os, const Client& client);
 };

@@ -36,3 +36,7 @@ void AllOffers::removeOffer(int Number) {
     else
         throw NoSuchOfferException(Number);
 }
+
+vector<shared_ptr<Offer>> AllOffers::getOffers() {
+    return offers;
+}

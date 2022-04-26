@@ -4,16 +4,19 @@
 
 #ifndef ZADANIE4_BUSINESSCLIENT_H
 #define ZADANIE4_BUSINESSCLIENT_H
-#include "client.h"
-#include "worker.h"
-#include <vector>
 #include <iostream>
+#include <vector>
+#include "client.h"
+
+#include "allWorkers.h"
+#include "worker.h"
 using namespace std;
 
 class BusinessClient : public Client{
-protected:
 public:
     BusinessClient(int Number, string Name);
-    shared_ptr<Worker> chooseWorker(vector<shared_ptr<Worker>> workers);
+    shared_ptr<Worker> chooseWorker(AllWorkers workers);
+    shared_ptr<Offer> chooseOffer(AllOffers workers);
 };
+
 #endif //ZADANIE4_BUSINESSCLIENT_H

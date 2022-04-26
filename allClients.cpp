@@ -45,3 +45,11 @@ void AllClients::removeClient(int Number) {
     else
         throw NoSuchClientInDatabaseException(Number);
 }
+
+ void AllClients::chooseWorkers(AllWorkers Workers) {
+    for (const auto& clientPtr: allClients){
+        shared_ptr<Worker> chosenWorker = clientPtr ->chooseWorker(Workers);
+        chosenWorker -> setAccessibility(false);
+        cout << "For client: " << clientPtr -> getNumber() << " worker:" << chosenWorker -> getId() << endl;
+    }
+}

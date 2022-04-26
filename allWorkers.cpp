@@ -36,3 +36,7 @@ void AllWorkers::removeWorker(int Id) {
     else
         throw NoSuchWorkerException(Id);
 }
+
+vector<shared_ptr<Worker>> AllWorkers::getWorkers() {
+    return workers;
+}

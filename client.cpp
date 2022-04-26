@@ -1,5 +1,5 @@
 //
-// Created by Kacper Murygin on 21/04/2022.
+// Created by Kacper Murygin on 24/04/2022.
 //
 
 #include "client.h"
@@ -25,9 +25,7 @@ Client::Client(int Number, string Name) {
     name = Name;
 }
 
-
 Client::~Client() {}
-
 
 bool Client::compareNumber(int Number) {
     return number == Number;
@@ -38,4 +36,3 @@ ostream& operator<<(ostream& os, const Client& client)
     os <<client.number << "," << client.name;
     return os;
 }
-
