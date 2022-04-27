@@ -10,7 +10,7 @@ shared_ptr<Worker> BusinessClient::chooseWorker(AllWorkers Workers) {
     while(workerNotFound){
         if(i >= workers.size()){
             workerNotFound = true;
-            cerr << "No available worker";
+            throw NoAvailableWorkerException(name);
         }
         else if(workers[i] -> getAccessible()){
             workerNotFound = false;
@@ -34,12 +34,23 @@ BusinessClient::BusinessClient(int Number, string Name) :
 
 shared_ptr<Offer> BusinessClient::chooseOffer(AllOffers Offers) {
     vector<shared_ptr<Offer>> offers = Offers.getOffers();
-    shared_ptr<Offer> bestOffer = offers[0];
+    shared_ptr<Offer> bestOffer;
+    bool ifFound = false;
     for (const auto& offer : offers){
-        if (offer -> getRating() > bestOffer-> getRating() and offer -> getAvailableClients() > 0)
+        if(offer -> getAvailableClients() > 0){
+            ifFound = true;
             bestOffer = offer;
+            break;
+        }
+    }
+    if(!ifFound)
+        throw NoAvailableOfferException(name);
+
+    for (const auto& offer : offers){
+            if (offer -> getRating() > bestOffer -> getRating() and offer -> getAvailableClients() > 0)
+                bestOffer = offer;
     }
     bestOffer -> decreaseAvailableClients();
     return bestOffer;
-}
+    }
 

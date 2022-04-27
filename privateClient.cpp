@@ -7,27 +7,13 @@ using namespace std;
 
 shared_ptr<Worker> PrivateClient::chooseWorker(AllWorkers Workers) {
     vector<shared_ptr<Worker>> workers = Workers.getWorkers();
-    bool workerNotFound = true;
-    int i=0;
-    while(workerNotFound){
-        if(i >= workers.size()){
-            workerNotFound = true;
-            throw NoAvailableWorkerException(name);
+    for(int i=0; i< Workers.getNumberOfWorkers(); i++) {
+        if(workers[i] -> getAccessible()) {
+            workers[i]->setAccessibility(false);
+            return workers[i];
         }
-        else if(workers[i] -> getAccessible()){
-            workerNotFound = false;
-        }
-        else
-            i++;
     }
-
-        for (const auto& workerPtr: workers){
-            if (workerPtr -> getAccessible()){
-                workerPtr ->setAccessibility(false);
-                return workerPtr;
-            }
-        }
-
+    throw NoAvailableWorkerException(name);
 }
 
 PrivateClient::PrivateClient(int Number, string Name) :

@@ -69,7 +69,48 @@ TEST_CASE("product simple tests", "[clients]")
         CHECK(workerFor1 -> getId() == 2);
         CHECK(workerFor2 -> getId() == 3);
     }
+    SECTION("choosing workers for privateClient- no available worker"){
+        AllWorkers workers;
+        workers.addWorker(1, "Kamil", 10);
 
+        PrivateClient client1(1, "Kamila");
+        PrivateClient client2(2, "Kamil");
+
+        shared_ptr<Worker> workerFor1 = client1.chooseWorker(workers);
+        CHECK_THROWS_AS(client2.chooseWorker(workers), NoAvailableWorkerException);
+    }
+    SECTION("choosing workers for businessClient- no available worker"){
+        AllWorkers workers;
+        workers.addWorker(1, "Kamil", 10);
+
+        BusinessClient client1(1, "Kamila");
+        BusinessClient client2(2, "Kamil");
+
+        shared_ptr<Worker> workerFor1 = client1.chooseWorker(workers);
+        CHECK_THROWS_AS(client2.chooseWorker(workers), NoAvailableWorkerException);
+    }
+    SECTION("choosing workers- both types of clients"){
+        AllWorkers workers;
+        workers.addWorker(1, "Kamil", 10);
+        workers.addWorker(2, "Waclaw", 20);
+        workers.addWorker(3, "Konrad", 30);
+        workers.addWorker(4, "Gustaw", 40);
+
+        BusinessClient client1(1, "Kamila");
+        BusinessClient client2(2, "Kamil");
+        PrivateClient client3(3, "Kamila");
+        PrivateClient client4(4, "Kamil");
+
+        shared_ptr<Worker> workerFor1 = client1.chooseWorker(workers);
+        shared_ptr<Worker> workerFor2 = client2.chooseWorker(workers);
+        shared_ptr<Worker> workerFor3 = client3.chooseWorker(workers);
+        shared_ptr<Worker> workerFor4 = client4.chooseWorker(workers);
+
+        CHECK(workerFor1 -> getId() == 4);
+        CHECK(workerFor2 -> getId() == 3);
+        CHECK(workerFor3 -> getId() == 1);
+        CHECK(workerFor4 -> getId() == 2);
+    }
     SECTION("choosing offers for businessClient"){
         AllOffers offers;
         offers.addOffer(1, "specjalna 1", "Kup 2 w 1", 35, 2);
@@ -124,6 +165,56 @@ TEST_CASE("product simple tests", "[clients]")
         CHECK(offerFor5 -> getNumber() == 4);
     }
 
+    SECTION("choosing offers- both types of clients"){
+        AllOffers offers;
+        offers.addOffer(1, "specjalna 1", "Kup 2 w 1", 10, 2);
+        offers.addOffer(2, "specjalna 1", "Kup 2 w 1", 20, 1);
+        offers.addOffer(3, "specjalna 1", "Kup 2 w 1", 30, 1);
+        offers.addOffer(4, "specjalna 1", "Kup 2 w 1", 40, 1);
+        offers.addOffer(5, "specjalna 1", "Kup 2 w 1", 50, 2);
+
+        PrivateClient client1(1, "Kamila");
+        PrivateClient client2(2, "Kamil");
+        PrivateClient client3(3, "Kamilek");
+        BusinessClient client4(4, "Kamil");
+        BusinessClient client5(5, "Kamil");
+        BusinessClient client6(6, "Mariola");
+
+        shared_ptr<Offer> offerFor1 = client1.chooseOffer(offers);
+        shared_ptr<Offer> offerFor2 = client2.chooseOffer(offers);
+        shared_ptr<Offer> offerFor3 = client3.chooseOffer(offers);
+        shared_ptr<Offer> offerFor4 = client4.chooseOffer(offers);
+        shared_ptr<Offer> offerFor5 = client5.chooseOffer(offers);
+        shared_ptr<Offer> offerFor6 = client6.chooseOffer(offers);
+
+        CHECK(offerFor1 -> getNumber() == 1);
+        CHECK(offerFor2 -> getNumber() == 1);
+        CHECK(offerFor3 -> getNumber() == 2);
+        CHECK(offerFor4 -> getNumber() == 5);
+        CHECK(offerFor5 -> getNumber() == 5);
+        CHECK(offerFor6 -> getNumber() == 4);
+    }
+
+    SECTION("choosing offers for privateClient- no available offer"){
+        AllOffers offers;
+        offers.addOffer(1, "specjalna 1", "Kup 2 w 1", 35, 1);
+
+        PrivateClient client1(1, "Kamila");
+        PrivateClient client2(2, "Kamil");
+
+        shared_ptr<Offer> offerFor1 = client1.chooseOffer(offers);
+        CHECK_THROWS_AS(client2.chooseOffer(offers), NoAvailableOfferException);
+    }
+    SECTION("choosing offers for businessClient- no available offer"){
+        AllOffers offers;
+        offers.addOffer(1, "specjalna 1", "Kup 2 w 1", 35, 1);
+
+        BusinessClient client1(1, "Kamila");
+        BusinessClient client2(2, "Kamil");
+
+        shared_ptr<Offer> offerFor1 = client1.chooseOffer(offers);
+        CHECK_THROWS_AS(client2.chooseOffer(offers), NoAvailableOfferException);
+    }
     SECTION("AllClients- adding clients"){
         AllClients clients;
         clients.addPrivateClient(1, "Karol");
@@ -134,12 +225,31 @@ TEST_CASE("product simple tests", "[clients]")
 
         CHECK(clients.getNumberOfClients() == 4);
     }
+    SECTION("AllClients- removing clients"){
+        AllClients clients;
+        clients.addPrivateClient(1, "Karol");
+        clients.addPrivateClient(2, "Karolina");
 
+        clients.removeClient(1);
+        CHECK(clients.getNumberOfClients() == 1);
+    }
     SECTION("AllClients- adding clients, wrong number"){
         AllClients clients;
         clients.addPrivateClient(1, "Karol");
-        clients.addPrivateClient(1, "Karolina");
+        CHECK_THROWS_AS( clients.removeClient(10), NoSuchClientInDatabaseException);
+    }
+    SECTION("AllClients- adding clients, wrong number"){
+        AllClients clients;
+        clients.addPrivateClient(1, "Karol");
+        CHECK_THROWS_AS( clients.addPrivateClient(1, "Karolina"), ClientInDatabaseException);
+    }
+    SECTION("AllClients- checking if client in database"){
+        AllClients clients;
+        clients.addPrivateClient(1, "Karol");
+        clients.addPrivateClient(2, "Karolina");
 
-
+        CHECK(clients.checkClientNumber(1) == 1);
+        CHECK(clients.checkClientNumber(2) == 1);
+        CHECK(clients.checkClientNumber(3) == 0);
     }
 }
