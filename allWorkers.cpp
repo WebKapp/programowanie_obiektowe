@@ -28,9 +28,9 @@ int AllWorkers::getNumberOfWorkers() {
 
 void AllWorkers::removeWorker(int Id) {
     if(checkWorkerNumber(Id)){
-        for (const auto& offerPtr: workers){
-            if (offerPtr -> getId() == Id)
-                workers.erase(std::remove(workers.begin(), workers.end(), offerPtr), workers.end());
+        for (const auto& workerPtr: workers){
+            if (workerPtr -> getId() == Id)
+                workers.erase(std::remove(workers.begin(), workers.end(), workerPtr), workers.end());
         }
     }
     else

@@ -8,6 +8,7 @@
 #include <ostream>
 #include <iostream>
 #include "NoAvailableWorkerException.h"
+#include "NoAvailableOfferException.h"
 #include "worker.h"
 #include "offer.h"
 #include "allOffers.h"

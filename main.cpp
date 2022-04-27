@@ -17,7 +17,7 @@ int main()
     AllWorkers workers;
     AllClients clients;
     AllOffers offers;
-    int choice, number, id, rating;
+    int choice, number, id, rating, maxClients;
     string name;
 
     workers.addWorker(1, "Kamil", 10);
@@ -40,10 +40,13 @@ int main()
         cout << "-----------------------MENU-----------------------" << endl;
         cout << "1. Add private client to database" << endl;
         cout << "2. Add business client to database" << endl;
-        cout << "3. Add worker" << endl;
-        cout << "4. Add offer" << endl;
-        cout << "5. Choose workers for all the clients" << endl;
-        cout << "6. Choose offers for all the clients" << endl;
+        cout << "3. Remove client from database" << endl;
+        cout << "4. Add worker" << endl;
+        cout << "5. Add offer" << endl;
+        cout << "6. Remove worker" << endl;
+        cout << "7. Remove offer" << endl;
+        cout << "8. Choose workers for all the clients" << endl;
+        cout << "9. Choose offers for all the clients" << endl;
 
         cin >> choice;
         switch (choice) {
@@ -74,6 +77,17 @@ int main()
                 }
                 break;
             case 3:
+                try{
+                    cout << "Number: ";
+                    cin >> number;
+                    clients.removeClient(number);
+                    cout << "Client successfully removed" << endl;
+                }
+                catch (const NoSuchClientInDatabaseException& e){
+                    cerr << e.what() << endl;
+                }
+                break;
+            case 4:
                 try {
                     cout << "Id: ";
                     cin >> id;
@@ -87,7 +101,7 @@ int main()
                     cerr << e.what() << endl;
                 }
                 break;
-            case 4:
+            case 5:
                 try {
                     cout << "Number: ";
                     cin >> number;
@@ -97,18 +111,42 @@ int main()
                     cin >> description;
                     cout << "Rating: ";
                     cin >> rating;
-                    offers.addOffer(number, name, description, rating);
+                    cout <<"Maximum usage: ";
+                    cin >> maxClients;
+                    offers.addOffer(number, name, description, rating, maxClients);
                 }
                 catch(const OfferAlreadyExistsException& e) {
                     cerr << e.what() << endl;
                 }
                 break;
-            case 5:
+            case 6:
+                try{
+                    cout << "Number: ";
+                    cin >> number;
+                    workers.removeWorker(number);
+                    cout << "Worker successfully removed" << endl;
+                }
+                catch (const NoSuchWorkerException& e){
+                    cerr << e.what() << endl;
+                }
+                break;
+            case 7:
+                try{
+                    cout << "Number: ";
+                    cin >> number;
+                    offers.removeOffer(number);
+                    cout << "Offer successfully removed" << endl;
+                }
+                catch (const NoSuchOfferException& e){
+                    cerr << e.what() << endl;
+                }
+                break;
+            case 8:
                 clients.chooseWorkers(workers);
                 break;
-//            case 6 :
-//                clients.chooseOffers(offers);
-//                break;
+            case 9 :
+                clients.chooseOffers(offers);
+                break;
             default:
                 cerr << "Wrong choice";
         }

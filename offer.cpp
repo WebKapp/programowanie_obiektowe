@@ -4,11 +4,18 @@
 
 #include "offer.h"
 
-Offer::Offer(int Number, string Name, string Description, int Rating) {
+Offer::Offer(int Number, string Name, string Description, int Rating, int MaxClients) {
     number = Number;
     name = Name;
     description = Description;
     rating = Rating;
+    maxClients = MaxClients;
+    availableClients = MaxClients;
+}
+
+
+int Offer::getMaxClients() {
+    return maxClients;
 }
 
 int Offer::getNumber() {
@@ -25,6 +32,10 @@ string Offer::getDescription() {
 
 int Offer::getRating() {
     return rating;
+}
+
+void Offer::setMaxClients(int newMaxClients) {
+    maxClients = newMaxClients;
 }
 
 void Offer::setNumber(int newNumber) {
@@ -47,4 +58,16 @@ ostream& operator<<(ostream& os, const Offer& offer)
 {
     os << offer.number << "," << offer.name << "," << offer.description << "," << offer.rating;
     return os;
+}
+
+int Offer::getAvailableClients() {
+    return availableClients;
+}
+
+void Offer::increaseAvailableClients() {
+    availableClients += 1;
+}
+
+void Offer::decreaseAvailableClients() {
+    availableClients -= 1;
 }

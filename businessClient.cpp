@@ -25,6 +25,7 @@ shared_ptr<Worker> BusinessClient::chooseWorker(AllWorkers Workers) {
                 bestWorker = worker;
         }
     }
+    bestWorker -> setAccessibility(false);
     return bestWorker;
  }
 
@@ -35,9 +36,10 @@ shared_ptr<Offer> BusinessClient::chooseOffer(AllOffers Offers) {
     vector<shared_ptr<Offer>> offers = Offers.getOffers();
     shared_ptr<Offer> bestOffer = offers[0];
     for (const auto& offer : offers){
-        if (offer -> getRating() > bestOffer-> getRating())
+        if (offer -> getRating() > bestOffer-> getRating() and offer -> getAvailableClients() > 0)
             bestOffer = offer;
     }
+    bestOffer -> decreaseAvailableClients();
     return bestOffer;
 }
 

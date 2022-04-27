@@ -20,9 +20,10 @@ shared_ptr<Worker> PrivateClient::chooseWorker(AllWorkers Workers) {
         else
             i++;
     }
-    //TO DO- MUSZA BYC WLACZONE
+
         for (const auto& workerPtr: workers){
             if (workerPtr -> getAccessible()){
+                workerPtr ->setAccessibility(false);
                 return workerPtr;
             }
         }
@@ -34,8 +35,11 @@ PrivateClient::PrivateClient(int Number, string Name) :
 
 shared_ptr<Offer> PrivateClient::chooseOffer(AllOffers Offers) {
     vector<shared_ptr<Offer>> offers = Offers.getOffers();
-    bool workerNotFound = true;
-    int i=0;
-
-    return offers[0];
+    for(int i=0; i< Offers.getNumberOfOffers(); i++) {
+        if(offers[i] -> getAvailableClients() > 0) {
+            offers[i]->decreaseAvailableClients();
+            return offers[i];
+        }
+    }
+    throw NoAvailableOfferException(name);
 }

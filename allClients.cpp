@@ -53,3 +53,10 @@ void AllClients::removeClient(int Number) {
         cout << "For client: " << clientPtr -> getNumber() << " worker:" << chosenWorker -> getId() << endl;
     }
 }
+
+void AllClients::chooseOffers(AllOffers Offers) {
+    for (const auto& clientPtr: allClients){
+        shared_ptr<Offer> chosenOffer = clientPtr ->chooseOffer(Offers);
+        cout << "For client: " << clientPtr -> getNumber() << " offer:" << chosenOffer -> getNumber() << endl;
+    }
+}

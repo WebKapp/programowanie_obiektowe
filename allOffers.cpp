@@ -13,9 +13,9 @@ bool AllOffers::checkOfferNumber(int Number) {
     return false;
 }
 
-void AllOffers::addOffer(int Number, string Name, string Description, int Rating) {
+void AllOffers::addOffer(int Number, string Name, string Description, int Rating, int MaxOffers) {
     if(!checkOfferNumber(Number)){
-        unique_ptr<Offer> addedOffer = make_unique<Offer>(Number, Name, Description, Rating);
+        unique_ptr<Offer> addedOffer = make_unique<Offer>(Number, Name, Description, Rating, MaxOffers);
         offers.push_back(move(addedOffer));
     }
     else
