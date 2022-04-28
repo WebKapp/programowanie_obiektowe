@@ -233,7 +233,7 @@ TEST_CASE("product simple tests", "[clients]")
         clients.removeClient(1);
         CHECK(clients.getNumberOfClients() == 1);
     }
-    SECTION("AllClients- adding clients, wrong number"){
+    SECTION("AllClients- removing clients, wrong number"){
         AllClients clients;
         clients.addPrivateClient(1, "Karol");
         CHECK_THROWS_AS( clients.removeClient(10), NoSuchClientInDatabaseException);
@@ -251,5 +251,49 @@ TEST_CASE("product simple tests", "[clients]")
         CHECK(clients.checkClientNumber(1) == 1);
         CHECK(clients.checkClientNumber(2) == 1);
         CHECK(clients.checkClientNumber(3) == 0);
+    }
+    SECTION("AllOffers- adding and removing offers"){
+        AllOffers offers;
+        offers.addOffer(1, "2w1", "dwa kredyty w cenie 1", 10, 2);
+        offers.addOffer(2, "2w1", "dwa kredyty w cenie 1", 20, 2);
+        offers.addOffer(3, "2w1", "dwa kredyty w cenie 1", 30, 2);
+
+        CHECK(offers.getNumberOfOffers() == 3);
+
+        offers.removeOffer(1);
+        CHECK(offers.getNumberOfOffers() == 2);
+    }
+    SECTION("AllWorkers- adding and removing workers"){
+        AllWorkers workers;
+
+        workers.addWorker(1, "Kamil", 10);
+        workers.addWorker(2, "Kamil", 10);
+        workers.addWorker(3, "Kamil", 10);
+        workers.addWorker(4, "Kamil", 10);
+        workers.addWorker(5, "Kamil", 10);
+
+        CHECK(workers.getNumberOfWorkers() == 5);
+        workers.removeWorker(4);
+        CHECK(workers.getNumberOfWorkers() == 4);
+    }
+    SECTION("AllOffers- adding already existing offer"){
+        AllOffers offers;
+        offers.addOffer(3, "2w1", "dwa kredyty w cenie 1", 30, 2);
+        CHECK_THROWS_AS(offers.addOffer(3, "2w1", "dwa kredyty w cenie 1", 30, 2), OfferAlreadyExistsException);
+    }
+    SECTION("AllWorkers- adding already existing worker"){
+        AllWorkers workers;
+        workers.addWorker(5, "Kamil", 10);
+        CHECK_THROWS_AS(workers.addWorker(5, "Kamil", 10), WorkerAlreadyExistsException);
+    }
+    SECTION("AllOffers- removing not existing offer"){
+        AllOffers offers;
+        offers.addOffer(3, "2w1", "dwa kredyty w cenie 1", 30, 2);
+        CHECK_THROWS_AS( offers.removeOffer(1), NoSuchOfferException);
+    }
+    SECTION("AllWorkers- removing not existing worker"){
+        AllWorkers workers;
+        workers.addWorker(1, "Kamil", 10);
+        CHECK_THROWS_AS( workers.removeWorker(10), NoSuchWorkerException);
     }
 }

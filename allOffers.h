@@ -19,7 +19,7 @@ public:
     int getNumberOfOffers();
     bool checkOfferNumber(int Number);
     void addOffer(int Number, string Name, string Description, int Rating, int MaxClients);
-    void removeOffer(int Number);
+    void removeOffer(int number);
 
     vector<shared_ptr<Offer>> getOffers();
 };

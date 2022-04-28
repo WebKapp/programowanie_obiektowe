@@ -35,6 +35,13 @@ int main()
     workers.addWorker(13, "Konrad", 130);
     workers.addWorker(14, "Konrad", 140);
 
+    offers.addOffer(1, "2za1", "dwa kredyty w cenie 1", 10, 2);
+    offers.addOffer(2, "2za1", "dwa kredyty w cenie 1", 20, 1);
+    offers.addOffer(3, "2za1", "dwa kredyty w cenie 1", 30, 1);
+    offers.addOffer(4, "2za1", "dwa kredyty w cenie 1", 40, 1);
+    offers.addOffer(5, "2za1", "dwa kredyty w cenie 1", 50, 2);
+
+
     while(ifContinue) {
         okAnswer = true;
         cout << "-----------------------MENU-----------------------" << endl;

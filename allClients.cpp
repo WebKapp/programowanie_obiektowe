@@ -50,7 +50,7 @@ void AllClients::removeClient(int Number) {
     for (const auto& clientPtr: allClients){
         shared_ptr<Worker> chosenWorker = clientPtr ->chooseWorker(Workers);
         chosenWorker -> setAccessibility(false);
-        cout << "For client: " << clientPtr -> getNumber() << " worker:" << chosenWorker -> getId() << endl;
+        cout << "For client: " << clientPtr -> getNumber() << " " <<clientPtr -> getName() << " worker:" << chosenWorker -> getId() << endl;
     }
 }
 

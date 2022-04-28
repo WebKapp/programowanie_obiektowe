@@ -3,6 +3,8 @@
 //
 
 #include "allWorkers.h"
+#include <algorithm>
+#include <iterator>
 using namespace std;
 
 bool AllWorkers::checkWorkerNumber(int Id) {
@@ -27,11 +29,10 @@ int AllWorkers::getNumberOfWorkers() {
 }
 
 void AllWorkers::removeWorker(int Id) {
-    if(checkWorkerNumber(Id)){
-        for (const auto& workerPtr: workers){
-            if (workerPtr -> getId() == Id)
-                workers.erase(std::remove(workers.begin(), workers.end(), workerPtr), workers.end());
-        }
+    if (checkWorkerNumber(Id)){
+        auto it = find_if(workers.begin(), workers.end(), [&Id](shared_ptr<Worker> obj) {return obj -> getId() == Id;});
+        auto index = distance(workers.begin(), it);
+        workers.erase(remove(workers.begin(), workers.end(), workers[index]), workers.end());
     }
     else
         throw NoSuchWorkerException(Id);

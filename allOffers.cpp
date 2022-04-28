@@ -3,6 +3,8 @@
 //
 
 #include "allOffers.h"
+#include <algorithm>
+#include <iterator>
 using namespace std;
 
 bool AllOffers::checkOfferNumber(int Number) {
@@ -26,15 +28,14 @@ int AllOffers::getNumberOfOffers() {
     return offers.size();
 }
 
-void AllOffers::removeOffer(int Number) {
-    if(checkOfferNumber(Number)){
-        for (const auto& offerPtr: offers){
-            if (offerPtr -> getNumber() == Number)
-                offers.erase(std::remove(offers.begin(), offers.end(), offerPtr), offers.end());
-        }
+void AllOffers::removeOffer(int number) {
+    if (checkOfferNumber(number)){
+        auto it = find_if(offers.begin(), offers.end(), [&number](shared_ptr<Offer> obj) {return obj -> getNumber() == number;});
+        auto index = distance(offers.begin(), it);
+        offers.erase(remove(offers.begin(), offers.end(), offers[index]), offers.end());
     }
     else
-        throw NoSuchOfferException(Number);
+        throw NoSuchOfferException(number);
 }
 
 vector<shared_ptr<Offer>> AllOffers::getOffers() {
